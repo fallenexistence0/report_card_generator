@@ -1,0 +1,12 @@
+.venv/
+__pycache__/
+*.pyc
+
+data.csv
+*.pdf
+
+dist/
+build/
+*.spec
+
+improuvements.txt

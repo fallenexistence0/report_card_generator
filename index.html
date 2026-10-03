@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Report Card</title>
+<link rel="stylesheet" type="text/css" href="styles.css">
+<style>
+/* Additional CSS styles */
+@page {
+    size: A4;
+    margin: 20mm 20mm 20mm 20mm; /* Define margins for A4 paper */
+}
+
+body {
+    font-size: 15px;
+    height: 297mm;
+    width: 210mm;
+}
+
+.legal {
+    font-size: 18px;
+    margin: 5mm;
+}
+.container {
+    width: 210mm;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 10px;
+    font-size: 17px;
+    page-break-after: always; /* Add page break after each container */
+}
+th, td {
+    padding: 10px;
+    border: 1px solid #000000;
+}
+
+th {
+    background-color: #f2f2f2;
+}
+
+.table_container {
+    overflow: hidden;
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+._1, ._2, ._3, ._4, ._5, ._6, ._7 {
+    margin-bottom: 20px;
+}
+
+._1 th {
+    width: 5in;
+}
+
+._1 th, ._1 td {
+    white-space: pre-wrap;
+}
+
+.__2 th, .__2 td {
+    width: 2.5in;
+}
+
+.__3 th, .__3 td, .__4 th, .__4 td, .__5 th, .__5 td {
+    width: 2in;
+}
+
+.__6 th, .__6 td {
+    width: 3in;
+}
+
+.__7 th, .__7 td {
+    width: 1.5in;
+}
+
+.teacher_note {
+    height: 5in;
+}
+
+</style>
+</head>
+<body>
+    <div class="legal">
+        <p><u>Jefferson Academy est une école privée de langues <br>authorisée par le ministre de l'éducation national<br> du royaume du Maroc Numéro 01/15/22</u></p>
+    </div>
+    <div class="container">
+        <h1>Report Card</h1>
+        <table class="_1">
+            <tr>
+                <th style="text-align: left;">Student: {student_name}<br>Teacher: {class_teacher}</th>
+                <th>Level: <br>{current_class}</th>
+                <th>School year: <br>{school_year}</th>
+            </tr>
+        </table>
+        <table class="_2">
+            <tr>
+                <th style="width: 50%;">Grade</th>
+                <th>Percentage</th>
+            </tr>
+        </table>
+        <table class="__3">
+            <tr>
+                <th>Class Quizzes</th>
+                <td style="text-align: center;">{class_quizzes}</td>
+                <td style="text-align: center;">20%</td>
+            </tr>
+        </table>
+        <table class="__4">
+            <tr>
+                <th>Speaking</th>
+                <td style="text-align: center;">{speaking}</td>
+                <td style="text-align: center;">20%</td>
+            </tr>
+        </table>
+        <table class="__5">
+            <tr>
+                <th>Final Exam</th>
+                <td style="text-align: center;">{final_exam}</td>
+                <td style="text-align: center;">60%</td>
+            </tr>
+        </table>
+        <table class="__6">
+            <tr>
+                <th>Overall</th>
+                <td style="text-align: center;"><b>{overall_grade}</b></td>
+            </tr>
+        </table>
+        <table class="__7">
+            <tr>
+                <th style="width: 25%;">Passed</th>
+                <th style="width: 25%;">Failed</th>
+                <th style="text-align: left;">Next Class:</th>
+            </tr>
+        </table>
+        <h2>Teacher's comments and feedback</h2>
+        <table class="teacher_note">
+            <th></th>
+        </table>
+    </div>
+</body>
+</html>

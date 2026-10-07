@@ -11,12 +11,19 @@ from datetime import date
 current_time = date.today()
 
 print("Starting process")
+
+
 current_directory = os.path.dirname(os.path.abspath(__file__))
 print("current directory set")
 print(current_directory)
+
 csv_file_path = os.path.join(current_directory, 'data.csv')
 print("file path sucess")
-print("CSV file path:", csv_file_path)
+print("CSV file path: ", csv_file_path)
+
+print("Checking for index.html")
+html_path = os.path.join(current_directory, 'index.html')
+print("index.html path: ", html_path)
 
 all_reports_html = ""
 def html_to_pdf(html_content, pdf_filename):
@@ -24,7 +31,7 @@ def html_to_pdf(html_content, pdf_filename):
 
 df = pd.read_csv(csv_file_path)
 # Read HTML template outside the loop
-with open('./index.html', 'r') as html_file:
+with open(html_path, 'r', encoding="UTF-8") as html_file:
     html_template = html_file.read()
 
 for i, row in df.iterrows():
@@ -69,12 +76,13 @@ for i, row in df.iterrows():
     #     browser.close()
 
     all_reports_html += modified_html
+
 with sync_playwright() as p:
     browser = p.chromium.launch()
     page = browser.new_page()
     page.set_content(all_reports_html)
     page.emulate_media(media="screen")
-    page.pdf(path=f"./report_card_for_{current_time}.pdf", format="A4",
+    page.pdf(path=f"{current_directory}./report_card_for_{current_time}.pdf", format="A4",
             landscape=True, margin={"top": "2cm"})
     browser.close()
 

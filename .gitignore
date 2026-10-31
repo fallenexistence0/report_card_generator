@@ -2,8 +2,11 @@
 __pycache__/
 *.pyc
 
+venv/
+
 data.csv
 *.pdf
+*.csv
 
 dist/
 build/

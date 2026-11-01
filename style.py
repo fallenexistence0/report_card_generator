@@ -4,19 +4,32 @@ import tkinter as tk
 from tkinter import filedialog
 from explorer import FileExplorer
 
+from PIL import Image, ImageTk
+
 class ReportCardGUI:
 
 
 
     def __init__(self):
             
-        
         self.window = tk.Tk()
 
         width = self.window.winfo_screenwidth()
         height = self.window.winfo_screenheight()
 
-        self.window.geometry("%dx%d" % (width, height))
+
+        self.window.geometry("%dx%d" % (width, height)) 
+
+        
+        self.window.grid_rowconfigure(0, weight=1)
+        self.window.grid_columnconfigure(0, weight=1)
+
+
+        self.button_frame = tk.Frame(self.window)
+        self.button_frame.grid(
+            row=0,
+            column=0
+        )
 
         self.window.title(
             "Jefferson Academy -Report Card Generator"
@@ -28,46 +41,43 @@ class ReportCardGUI:
 
         self.window.iconphoto(True, self.icon)
 
+    
+
+
+
         self.browse_files_button = tk.Button(
-            self.window, 
+            self.button_frame, 
             text='Browse files',
-            command=self.click,
+            command=FileExplorer.browseFiles,
             font=('Ink Free', 10, "bold"),
-            bg='white',
+            bg='pink',
             fg='black',
-            padx=20,
-            pady=10
+            width=20,
+            height=2
             )
 
-        self.browse_files_button.place(
-            relx=0.5,
-            rely=0.5,
-            anchor='center'
+        self.browse_files_button.grid(
+            row=1,
+            column=0,
+            padx=10,
+            pady=10
         )
 
-
-        self.label_file_explorer = Label(
-            self.window,
-            text="File Explorer",
-            width=100,
-            height=5,
-            fg="blue"
-        )
-
-        self.button_explore = Button(self.window, 
-            text = "Browse Files",
-            command = FileExplorer.browseFiles
+        self.button_exit = Button(
+            self.button_frame,
+            width=20,
+            height=2,
+            bg="yellow", 
+            text = "Exit",
+            command = exit
             ) 
 
-        self.button_exit = Button(self.window, 
-            text = "Exit",
-            command = exit) 
-
-        self.label_file_explorer.grid(column = 1, row = 1)
-
-        self.button_explore.grid(column = 1, row = 2)
-
-        self.button_exit.grid(column = 1,row = 3)
+        self.button_exit.grid(
+            row=2,
+            column=0,
+            padx=10,
+            pady=10
+        )
 
 
 

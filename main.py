@@ -7,6 +7,7 @@ from datetime import date
 
 from tkinter import *
 from style import ReportCardGUI
+from explorer import FileExplorer
 
 from threading import Thread
 
@@ -22,9 +23,11 @@ def generate_reports():
     print("current directory set")
     print(current_directory)
 
-    csv_file_path = os.path.join(current_directory, 'data.csv')
-    print("file path sucess")
-    print("CSV file path: ", csv_file_path)
+    #csv_file_path = os.path.join(current_directory, 'data.csv')
+    #print("file path sucess")
+    
+    csv_file = FileExplorer.browseFiles()
+    print("CSV file path: ", csv_file)
 
     print("Checking for index.html")
     html_path = os.path.join(current_directory, 'index.html')
@@ -35,7 +38,7 @@ def generate_reports():
     def html_to_pdf(html_content, pdf_filename):
         HTML(string=html_content).write_pdf(pdf_filename)
 
-    df = pd.read_csv(csv_file_path)
+    df = pd.read_csv(csv_file)
     # Read HTML template outside the loop
     with open(html_path, 'r', encoding="UTF-8") as html_file:
         html_template = html_file.read()

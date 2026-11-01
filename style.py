@@ -9,7 +9,6 @@ from PIL import Image, ImageTk
 class ReportCardGUI:
 
 
-
     def __init__(self):
             
         self.window = tk.Tk()
@@ -40,10 +39,6 @@ class ReportCardGUI:
             )
 
         self.window.iconphoto(True, self.icon)
-
-    
-
-
 
         self.browse_files_button = tk.Button(
             self.button_frame, 

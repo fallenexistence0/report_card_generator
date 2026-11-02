@@ -89,7 +89,7 @@ def generate_reports(csv_file):
         all_reports_html += modified_html
 
     with sync_playwright() as p:
-        browser = p.chromium.launch()
+        browser = p.chromium.launch(channel="chromium", headless=True)
         page = browser.new_page()
         page.set_content(all_reports_html)
         page.emulate_media(media="screen")

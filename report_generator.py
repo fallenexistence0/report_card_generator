@@ -6,18 +6,13 @@ import os
 from datetime import date
 
 from tkinter import *
-from style import ReportCardGUI
-from explorer import FileExplorer
+
 
 
 from threading import Thread
 
 
-
-
-
-
-def generate_reports():
+def generate_reports(csv_file):
 
     # gets current date, which is used in the name of the PDF that is outputed.
     current_time = date.today()
@@ -33,7 +28,6 @@ def generate_reports():
     #print("file path sucess")
     
     
-    csv_file = FileExplorer.browseFiles()
     print("CSV file path: ", csv_file)
 
     print("Checking for index.html")

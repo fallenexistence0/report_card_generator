@@ -19,5 +19,4 @@ class FileExplorer():
         return csv_file_path
 
 
-
         #label_file_explorer.configure(text="File Opened: "+filename)

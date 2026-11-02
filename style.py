@@ -1,6 +1,8 @@
 from tkinter import *
 import tkinter as tk
 
+from report_generator import generate_reports
+
 from tkinter import filedialog
 from explorer import FileExplorer
 
@@ -8,6 +10,10 @@ from PIL import Image, ImageTk
 
 class ReportCardGUI:
 
+
+    def select_file(self):
+        csv_file_path = FileExplorer.browseFiles()
+        generate_reports(csv_file_path)
 
     def __init__(self):
             
@@ -40,16 +46,18 @@ class ReportCardGUI:
 
         self.window.iconphoto(True, self.icon)
 
+
         self.browse_files_button = tk.Button(
             self.button_frame, 
             text='Browse files',
-            command=FileExplorer.browseFiles,
+            command=self.select_file,
             font=('Ink Free', 10, "bold"),
             bg='pink',
             fg='black',
             width=20,
             height=2
             )
+
 
         self.browse_files_button.grid(
             row=1,

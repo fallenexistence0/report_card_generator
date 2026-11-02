@@ -13,6 +13,10 @@ class ReportCardGUI:
 
     def select_file(self):
         csv_file_path = FileExplorer.browseFiles()
+
+        if not csv_file_path:
+            return
+            
         generate_reports(csv_file_path)
 
     def __init__(self):

@@ -40,20 +40,29 @@ def generate_reports(csv_file):
         HTML(string=html_content).write_pdf(pdf_filename)
 
     df = pd.read_csv(csv_file)
+
     # Read HTML template outside the loop
     with open(html_path, 'r', encoding="UTF-8") as html_file:
         html_template = html_file.read()
 
+
+    
     for i, row in df.iterrows():
+
+        try:
         # Extract values from the current row
-        student_name = row['student_name']
-        current_class = row['current_class']
-        class_teacher = row['class_teacher']
-        school_year = row['school_year']
-        class_quizzes = row['class_quizzes']
-        speaking = row['speaking']
-        final_exam = row['final_exam']
-        overall_grade = row['overall_grade'] if 'overall_grade' in row else ''
+            student_name = row['student_name']
+            current_class = row['current_class']
+            class_teacher = row['class_teacher']
+            school_year = row['school_year']
+            class_quizzes = row['class_quizzes']
+            speaking = row['speaking']
+            final_exam = row['final_exam']
+            overall_grade = row['overall_grade'] if 'overall_grade' in row else ''
+
+        except:
+            print("Error. Invalid csv file template")
+            return
 
         print(f"Processing report for {student_name}")
 

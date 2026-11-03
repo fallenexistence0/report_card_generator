@@ -8,6 +8,8 @@ from explorer import FileExplorer
 
 from PIL import Image, ImageTk
 
+from threading import Thread
+
 class ReportCardGUI:
 
 
@@ -16,8 +18,15 @@ class ReportCardGUI:
 
         if not csv_file_path:
             return
+
+        worker = Thread(
+            target=generate_reports,
+            args=(csv_file_path,)
+            )
+
+        worker.start()
             
-        generate_reports(csv_file_path)
+        #generate_reports(csv_file_path)
 
     def __init__(self):
             
@@ -60,7 +69,7 @@ class ReportCardGUI:
             )
 
         self.icon = tk.PhotoImage(
-            file="assets/logos/jefferson_academy_logo_2.png"
+            file="assets/logos/logo_jefferson.png"
             )
 
         self.window.iconphoto(True, self.icon)
@@ -74,6 +83,13 @@ class ReportCardGUI:
             bg="#f7f7ff"
             )
 
+        self.progress_output = Label(
+            self.button_frame,
+            font=("Arial", 14, "bold"),
+            text="Hello",
+            bg='#2b3187',
+            fg='#f7f7ff',
+        )
 
 
         self.instructions.grid(
@@ -120,6 +136,12 @@ class ReportCardGUI:
             pady=10
         )
 
+        self.progress_output.grid(
+            row=4,
+            column=1,
+            padx=10,
+            pady=10
+        )
 
 
     def click(self):

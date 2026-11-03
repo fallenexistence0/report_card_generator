@@ -10,8 +10,8 @@ from threading import Thread
 
 def main():
     gui = ReportCardGUI()
-
     gui.run()
+
 
 
 

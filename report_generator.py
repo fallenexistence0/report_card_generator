@@ -7,12 +7,13 @@ from datetime import date
 
 from tkinter import *
 
-
-
 from threading import Thread
 
+import uuid
 
 def generate_reports(csv_file):
+
+    unique_ID = uuid.uuid4()
 
     # gets current date, which is used in the name of the PDF that is outputed.
     current_time = date.today()
@@ -117,7 +118,7 @@ def generate_reports(csv_file):
         page = browser.new_page()
         page.set_content(all_reports_html)
         page.emulate_media(media="screen")
-        page.pdf(path=f"{current_directory}/report_card_for_{class_teacher}_{current_time}.pdf", format="A4",
+        page.pdf(path=f"{current_directory}/report_card_for_{unique_ID}_{current_time}.pdf", format="A4",
                 landscape=True, margin={"top": "2cm"})
         browser.close()
 

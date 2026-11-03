@@ -34,12 +34,27 @@ class ReportCardGUI:
         self.window.grid_columnconfigure(0, weight=1)
 
 
+
+
         self.button_frame = tk.Frame(self.window)
         self.button_frame.grid(
             row=0,
-            column=0
+            column=0,
         )
 
+        self.image = Image.open("assets/logos/jefferson_academy_logo_1.png")
+
+        self.image_resized = self.image.resize((200, 150))
+
+        self.photo = ImageTk.PhotoImage(self.image_resized)
+
+        self.image_label = Label(self.window, image = self.photo)
+        self.image_label.image = self.photo
+        self.image_label.grid(
+            row=0,
+            column=0,
+            sticky=NW   
+        )
         self.window.title(
             "Jefferson Academy -Report Card Generator"
             )
@@ -51,37 +66,56 @@ class ReportCardGUI:
         self.window.iconphoto(True, self.icon)
 
 
+        self.instructions = Label(
+            self.button_frame,
+            font=("Arial", 14, "bold"),
+            text="Choose a valid csv file to generate a pdf of the reports:",
+            fg="black",
+            bg="#f7f7ff"
+            )
+
+
+
+        self.instructions.grid(
+            row=1,
+            column=1,
+            padx=10,
+            pady=10
+        )
+
         self.browse_files_button = tk.Button(
             self.button_frame, 
             text='Browse files',
             command=self.select_file,
-            font=('Ink Free', 10, "bold"),
-            bg='pink',
-            fg='black',
+            font=('Arial', 11, "bold"),
+            bg='#2b3187',
+            fg='#f7f7ff',
             width=20,
             height=2
             )
 
 
         self.browse_files_button.grid(
-            row=1,
-            column=0,
+            row=2,
+            column=1,
             padx=10,
             pady=10
         )
 
         self.button_exit = Button(
             self.button_frame,
+            font=('Arial', 11, "bold"),
             width=20,
             height=2,
-            bg="yellow", 
+            bg="#2b3187", 
+            fg="#f7f7ff",
             text = "Exit",
             command = exit
             ) 
 
         self.button_exit.grid(
-            row=2,
-            column=0,
+            row=3,
+            column=1,
             padx=10,
             pady=10
         )

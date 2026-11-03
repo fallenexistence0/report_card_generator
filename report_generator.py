@@ -46,9 +46,24 @@ def generate_reports(csv_file):
         html_template = html_file.read()
 
 
-    
-    for i, row in df.iterrows():
+    required_columns = {
+        'student_name', 
+        'current_class', 
+        'class_teacher', 
+        'school_year', 
+        'class_quizzes', 
+        'speaking', 
+        'final_exam', 
+        'overall_grade'
+    }
 
+    missing_columns = required_columns - set(df.columns)
+
+    if missing_columns:
+        print(f"Invalid csv file structure. Missing necessary columns: {missing_columns}")
+        return
+
+    for i, row in df.iterrows():
         try:
         # Extract values from the current row
             student_name = row['student_name']
@@ -60,8 +75,8 @@ def generate_reports(csv_file):
             final_exam = row['final_exam']
             overall_grade = row['overall_grade'] if 'overall_grade' in row else ''
 
-        except:
-            print("Error. Invalid csv file template")
+        except KeyError as error:
+            print(f"Missing column: {error}")
             return
 
         print(f"Processing report for {student_name}")
@@ -102,7 +117,7 @@ def generate_reports(csv_file):
         page = browser.new_page()
         page.set_content(all_reports_html)
         page.emulate_media(media="screen")
-        page.pdf(path=f"{current_directory}/report_card_for_{current_time}.pdf", format="A4",
+        page.pdf(path=f"{current_directory}/report_card_for_{class_teacher}_{current_time}.pdf", format="A4",
                 landscape=True, margin={"top": "2cm"})
         browser.close()
 

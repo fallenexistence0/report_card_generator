@@ -11,29 +11,33 @@ from threading import Thread
 
 import uuid
 
-def generate_reports(csv_file):
+
+def display_message(message):
+    print(f"status: {message}")
+
+def generate_reports(csv_file, progress_callback=print):
 
     unique_ID = uuid.uuid4()
 
     # gets current date, which is used in the name of the PDF that is outputed.
     current_time = date.today()
 
-    print("Starting process")
+    progress_callback(f"Starting process")
 
 
     current_directory = os.path.dirname(os.path.abspath(__file__))
-    print("current directory set")
+    progress_callback(f"current directory set")
     print(current_directory)
 
     #csv_file_path = os.path.join(current_directory, 'data.csv')
     #print("file path sucess")
     
     
-    print("CSV file path: ", csv_file)
+    progress_callback(f"CSV file path: {csv_file}")
 
-    print("Checking for index.html")
+    progress_callback(f"Checking for index.html")
     html_path = os.path.join(current_directory, 'index.html')
-    print("index.html path: ", html_path)
+    progress_callback(f"index.html path: {html_path}")
 
 
     all_reports_html = ""
@@ -61,7 +65,7 @@ def generate_reports(csv_file):
     missing_columns = required_columns - set(df.columns)
 
     if missing_columns:
-        print(f"Invalid csv file structure. Missing necessary columns: {missing_columns}")
+        progress_callback(f"Invalid csv file structure. Missing necessary columns: {missing_columns}")
         return
 
     for i, row in df.iterrows():
@@ -80,7 +84,9 @@ def generate_reports(csv_file):
             print(f"Missing column: {error}")
             return
 
-        print(f"Processing report for {student_name}")
+        progress_callback(f"Processing report for {student_name}")
+
+        progress_callback(f"Processing reports...")
 
         modified_html = html_template
 
@@ -94,7 +100,7 @@ def generate_reports(csv_file):
         modified_html = modified_html.replace('{overall_grade}', str(overall_grade))
 
         # Print the modified HTML content (for debugging purposes)
-        print("Modified HTML content:")
+        progress_callback(f"Modified HTML content:")
         #print(modified_html)
 
         filePath = os.path.abspath("./report_card_automation")
@@ -122,4 +128,4 @@ def generate_reports(csv_file):
                 landscape=True, margin={"top": "2cm"})
         browser.close()
 
-    print("PDF conversion complete.")
+    progress_callback(f"PDF conversion complete.")

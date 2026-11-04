@@ -9,7 +9,9 @@ from explorer import FileExplorer
 from PIL import Image, ImageTk
 
 from threading import Thread
+from queue import Queue, Empty
 
+from pathlib import Path
 class ReportCardGUI:
 
 
@@ -19,9 +21,11 @@ class ReportCardGUI:
         if not csv_file_path:
             return
 
+        self.progress_output.config(text="Starting...")
+
         worker = Thread(
             target=generate_reports,
-            args=(csv_file_path,)
+            args=(csv_file_path, self.status_queue.put)
             )
 
         worker.start()
@@ -30,7 +34,15 @@ class ReportCardGUI:
 
     def __init__(self):
             
+        self.status_queue = Queue()
+
+        
         self.window = tk.Tk()
+
+
+
+        self.window.after(100, self.check_status)
+
 
         width = self.window.winfo_screenwidth()
         height = self.window.winfo_screenheight()
@@ -51,7 +63,16 @@ class ReportCardGUI:
             column=0,
         )
 
-        self.image = Image.open("assets/logos/jefferson_academy_logo_1.png")
+        base_dir = Path(__file__).resolve().parent
+
+        logo_path = (
+            base_dir
+            / "assets"
+            / "logos"
+            / "jefferson_academy_logo_1.png"
+        )
+        
+        self.image = Image.open(logo_path)
 
         self.image_resized = self.image.resize((200, 150))
 
@@ -69,7 +90,7 @@ class ReportCardGUI:
             )
 
         self.icon = tk.PhotoImage(
-            file="assets/logos/logo_jefferson.png"
+            file=str(base_dir / "assets" / "logos" / "jefferson_academy_logo_1.png")
             )
 
         self.window.iconphoto(True, self.icon)
@@ -77,18 +98,19 @@ class ReportCardGUI:
 
         self.instructions = Label(
             self.button_frame,
-            font=("Arial", 14, "bold"),
+            font=("Segoe UI", 15, "bold"),
             text="Choose a valid csv file to generate a pdf of the reports:",
             fg="black",
-            bg="#f7f7ff"
+            #bg="#f7f7ff"
+
             )
 
-        self.progress_output = Label(
+        self.progress_output = tk.Label(
             self.button_frame,
-            font=("Arial", 14, "bold"),
-            text="Hello",
-            bg='#2b3187',
-            fg='#f7f7ff',
+            font=("Segoe UI", 12),
+            text="Ready...",
+            #bg='#2b3187',
+            #fg='#f7f7ff',
         )
 
 
@@ -96,14 +118,15 @@ class ReportCardGUI:
             row=1,
             column=1,
             padx=10,
-            pady=10
+            pady=(5, 35)
+
         )
 
         self.browse_files_button = tk.Button(
             self.button_frame, 
             text='Browse files',
             command=self.select_file,
-            font=('Arial', 11, "bold"),
+            font=('Segoe UI', 12),
             bg='#2b3187',
             fg='#f7f7ff',
             width=20,
@@ -120,13 +143,13 @@ class ReportCardGUI:
 
         self.button_exit = Button(
             self.button_frame,
-            font=('Arial', 11, "bold"),
+            font=('Segoe UI', 12),
             width=20,
             height=2,
             bg="#2b3187", 
             fg="#f7f7ff",
             text = "Exit",
-            command = exit
+            command = self.window.destroy
             ) 
 
         self.button_exit.grid(
@@ -140,13 +163,23 @@ class ReportCardGUI:
             row=4,
             column=1,
             padx=10,
-            pady=10
+            pady=20
         )
 
 
     def click(self):
         self.FileExplorer()
 
+
+    def check_status(self):
+        try:
+            while True:
+                message = self.status_queue.get_nowait()
+                self.progress_output.config(text=message)
+        except Empty:
+            pass
+
+        self.window.after(100, self.check_status)
 
     def run(self):
         self.window.mainloop()

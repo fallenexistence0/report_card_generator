@@ -24,8 +24,8 @@ class ReportCardGUI:
         self.progress_output.config(text="Starting...")
 
         worker = Thread(
-            target=generate_reports,
-            args=(csv_file_path, self.status_queue.put)
+            target=self.run_generator,
+            args=(csv_file_path,)
             )
 
         worker.start()
@@ -183,3 +183,14 @@ class ReportCardGUI:
 
     def run(self):
         self.window.mainloop()
+
+    def run_generator(self, csv_file_path):
+        try:
+            generate_reports(
+                csv_file_path,
+                self.status_queue.put
+            )
+        except Exception as error:
+            self.status_queue.put(
+                f"error: {type(error).__name__}: {error}"
+            )

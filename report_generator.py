@@ -12,6 +12,17 @@ from threading import Thread
 import uuid
 
 
+from pathlib import Path
+
+output_directory = Path.home() / "Documents" / "Jefferson Academy Reports"
+
+output_directory.mkdir(
+    parents=True,
+    exist_ok=True
+)
+
+
+
 def display_message(message):
     print(f"status: {message}")
 
@@ -121,10 +132,18 @@ def generate_reports(csv_file, progress_callback=print):
 
     with sync_playwright() as p:
         browser = p.chromium.launch(channel="chromium", headless=True)
+
+        progress_callback("Browser launched successfully")
         page = browser.new_page()
+        progress_callback("Page created successfully")
+
         page.set_content(all_reports_html)
+
+        progress_callback("HTML content set")
         page.emulate_media(media="screen")
-        page.pdf(path=f"{current_directory}/report_card_for_{unique_ID}_{current_time}.pdf", format="A4",
+
+        progress_callback("Generating PDF...")
+        page.pdf(path=f"{output_directory}/report_card_for_{unique_ID}_{current_time}.pdf", format="A4",
                 landscape=True, margin={"top": "2cm"})
         browser.close()
 
